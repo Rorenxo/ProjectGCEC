@@ -1,0 +1,161 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('/assets/login.png');
+  background-size:contain;
+  background-position: center;
+  background-attachment: fixed;
+}
+.logo{
+  height: 10rem; 
+  margin-bottom: 1rem;
+}
+.register-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 2.5rem;
+  background: var(--background-light);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header-title-group {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;    
+  margin-bottom: 0.5rem;
+}
+
+.header-title-group .logo {
+  height: 50px;
+}
+
+.header-title-group h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.register-header p {
+  color: #3b3b3b;
+  margin-top: 0.5rem;
+}
+.register-header h2 {
+    font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 1rem;
+}
+
+.name-fields mat-form-field {
+  flex: 1;
+  min-width: 0; 
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #383838;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(124, 185, 60, 0.2);
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.submit-btn {
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: var(--secondary-color);
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.login-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+
+@media (min-width: 600px) {
+  .name-fields {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

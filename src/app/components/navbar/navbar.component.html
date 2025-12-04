@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a class="navbar-brand" routerLink="/">
+      <img class="brand-icon" src="assets/gclogo.png" alt="EventGC Logo" />
+      <span class="brand-text">GCEC</span>
+    </a>
+    <div class="navbar-links" [class.active]="isMenuOpen" (click)="toggleMenu()">
+      <button class="close-menu-btn" (click)="toggleMenu(); $event.stopPropagation()">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+      <a routerLink="/home" class="nav-link" routerLinkActive="active">Home</a>
+      <a href="#features" class="nav-link" routerLinkActive="active">Features</a>
+      <a routerLink="/login" class="nav-link" routerLinkActive="active">Login</a>
+      <a routerLink="/register" class="nav-link nav-link-cta" routerLinkActive="active">Sign Up</a>
+    </div>
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+  </div>
+</nav>

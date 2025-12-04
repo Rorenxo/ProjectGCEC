@@ -1,3 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Define global color variables for consistent branding */
+:root {
+  --primary-color: #7cb93c;
+  --secondary-color: #68a22a;
+  --background-light: #ffffff;
+  --background-dark: #f4f7f6;
+  --text-dark: #333;
+  --text-light: #ffffff;
+}
 @import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body { 
+  height: 100%; 
+  scroll-behavior: smooth;
+}
+
+body { 
+  margin: 0; 
+  font-family: 'Montserrat', sans-serif;
+  background: var(--background-light);
+  color: #1e1e2e;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #7cb93c 0%, #6fa534 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7cb93c 0%, #6fa534 100%);
+}
+a {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #764ba2;
+}
