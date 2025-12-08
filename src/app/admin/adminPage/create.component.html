@@ -1,0 +1,65 @@
+<h2>Create New Event</h2>
+
+<form (ngSubmit)="createEvent()" class="form-container">
+
+  <!-- Event Title -->
+  <div class="form-group">
+    <label>Name of Event</label>
+    <input type="text" [(ngModel)]="newEvent.title" name="title" required />
+  </div>
+
+  <!-- Dates -->
+  <div class="date-row">
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="datetime-local" [(ngModel)]="newEvent.startDate" name="startDate" required />
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="datetime-local" [(ngModel)]="newEvent.endDate" name="endDate" required />
+    </div>
+  </div>
+
+  <!-- Department -->
+  <div class="form-group">
+    <label>Department</label>
+    <select [(ngModel)]="newEvent.department" name="department">
+      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+    </select>
+  </div>
+
+  <!-- Event Type -->
+  <div class="form-group">
+    <label>Event Type</label>
+    <select [(ngModel)]="newEvent.eventType" name="eventType">
+      <option *ngFor="let type of eventTypes" [value]="type">{{ type | titlecase }}</option>
+    </select>
+  </div>
+
+  <!-- Description -->
+  <div class="form-group">
+    <label>Description</label>
+    <textarea [(ngModel)]="newEvent.description" name="description" rows="4"></textarea>
+  </div>
+
+  <!-- Image Upload -->
+  <div class="form-group">
+    <label>Event Image</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  </div>
+
+  <!-- Loading Bar -->
+  <div class="progress-bar" *ngIf="uploading">
+    <div class="progress"></div>
+  </div>
+
+  <!-- Preview -->
+  <img [src]="imagePreview" *ngIf="imagePreview" class="image-preview" />
+
+  <!-- Button -->
+  <button class="submit-btn" type="submit" [disabled]="isFormInvalid()">
+    {{ uploading ? 'Uploading...' : 'Create Event' }}
+  </button>
+
+</form>

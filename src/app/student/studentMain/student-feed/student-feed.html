@@ -1,0 +1,84 @@
+<div class="student-feed-container">
+  <!-- Featured Event Section -->
+  <section class="featured-section">
+    <div class="featured-card-wrapper">
+      <div class="featured-card">
+        <img src="assets/APERTURA.png" alt="Featured Event" class="featured-image" />
+        <div class="featured-overlay"></div>
+        <div class="featured-content">
+          <h3 class="featured-title">GC APERTURA</h3>
+          <p class="featured-description">
+            Witness the clash of champions. A week of sports, spirit, and unity.
+          </p>
+          <button class="featured-button">
+            Learn More
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Cards Section -->
+  <section class="filter-section">
+    <div class="filter-grid">
+      <div class="filter-card" style="background-image: url('assets/campusEvent.jpg')">
+        <div class="filter-card-overlay"></div>
+        <h4 class="filter-card-label">All Events</h4>
+      </div>
+      <div class="filter-card" style="background-image: url('assets/gcSeminar.jpg')">
+        <div class="filter-card-overlay"></div>
+        <h4 class="filter-card-label">Seminars</h4>
+      </div>
+      <div class="filter-card" style="background-image: url('assets/gcAct.jpg')">
+        <div class="filter-card-overlay"></div>
+        <h4 class="filter-card-label">Activities</h4>
+      </div>
+      <div class="filter-card" style="background-image: url('assets/socialGC.jpg')">
+        <div class="filter-card-overlay"></div>
+        <h4 class="filter-card-label">Social</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Feed -->
+  <div class="events-feed">
+    <ng-container *ngIf="recentEvents$ | async as allEvents; else loadingOrNoEvents">
+      <div class="event-category">
+        <div class="category-header">
+          <div class="category-indicator from-indigo-600 to-purple-600"></div>
+          <h3 class="category-title">All Events</h3>
+        </div>
+        <div class="events-grid">
+          <div *ngFor="let event of allEvents">
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loadingOrNoEvents>
+      <ng-container *ngIf="(recentEvents$ | async) === null; else noEvents">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Loading events...</p>
+      </div>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #noEvents>
+      <div class="no-events-container">
+        <p class="no-events-title">No events available.</p>
+        <p class="no-events-subtitle">Check back soon for exciting campus events!</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!--
+  This is a placeholder for a new component that will render each event card.
+  You should create a new component `event-card` and move the card logic there.
+  For now, I am adding a placeholder to make the main dashboard template cleaner.
+-->
+<ng-template #eventCardTemplate let-event>
+  <!-- The content of the new event-card.component.html will go here -->
+</ng-template>
