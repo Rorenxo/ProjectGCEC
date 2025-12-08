@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators, } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../UTILS/firebase';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 export function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
@@ -64,8 +64,10 @@ export class RegisterComponent {
   hideConfirmPassword = true;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  faCheckCircle = faCheckCircle;
+  registrationSuccess = false; 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.registerForm = this.fb.group({
       userType: ['student', Validators.required],
       firstName: ['', Validators.required],
@@ -93,10 +95,13 @@ export class RegisterComponent {
           role: userType
         });
         console.log('User data saved to Firestore');
+        this.registrationSuccess = true; // Set to true on success
+        this.cdr.detectChanges(); // Manually trigger change detection
       } catch (error: any) {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error('Registration failed:', errorCode, errorMessage);
+        // You could add error handling here to show a message to the user
       }
     }
   }
