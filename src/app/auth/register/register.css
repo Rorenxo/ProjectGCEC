@@ -153,6 +153,47 @@ form {
   font-weight: 600;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-card {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.success-icon {
+  color: var(--primary-color);
+  font-size: 4rem; /* 64px */
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.success-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  line-height:1.2;
+  font-weight: 700;
+}
+
+.success-card p {
+  color: #3b3b3b;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.success-card .submit-btn {
+  display: inline-block;
+  text-decoration: none;
+  width: 100%;
+  max-width: 250px;
+}
 
 @media (min-width: 600px) {
   .name-fields {
