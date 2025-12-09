@@ -1,0 +1,35 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <button mat-raised-button color="primary" (click)="goToCreateEvent()">
+      <mat-icon>add</mat-icon>
+      Create New Event
+    </button>
+  </div>
+
+  <div class="stats-grid" *ngIf="stats$ | async as stats">
+    <mat-card class="stat-card" *ngFor="let stat of stats">
+      <mat-card-header>
+        <div mat-card-avatar><mat-icon>{{ stat.icon }}</mat-icon></div>
+        <mat-card-title>{{ stat.value }}</mat-card-title>
+        <mat-card-subtitle>{{ stat.label }}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <div class="events-container">
+    <h3 class="events-header">All Events</h3>
+    <div class="events-grid" *ngIf="recentEvents$ | async as recentEvents">
+      <mat-card class="event-card" *ngFor="let event of recentEvents">
+        <img mat-card-image [src]="event.imageUrl" alt="Photo of {{event.title}}">
+        <mat-card-header>
+          <mat-card-title>{{ event.title }}</mat-card-title>
+          <mat-card-subtitle>{{ event.startDate | date:'fullDate' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

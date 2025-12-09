@@ -3,11 +3,12 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../UTILS/firebase';
+import { auth, db } from '../../../UTILS/firebase';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash, faSpinner, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { doc, getDoc } from 'firebase/firestore';
 
-export function gordonCollegeEmailValidator(control: AbstractControl): ValidationErrors | null {
+export function adminEmailValidator(control: AbstractControl): ValidationErrors | null {
   if (!control.value) {
     return null;
   }
@@ -18,14 +19,14 @@ export function gordonCollegeEmailValidator(control: AbstractControl): Validatio
 
   const domainPart = emailParts[1];
 
-  if (domainPart !== 'gordoncollege.edu.ph') {
+  if (domainPart !== 'gcadmin.edu.ph') {
     return { domainMismatch: true };
   }
 
   return null;
 }
 @Component({
-  selector: 'app-login',
+  selector: 'app-admin-login',
   standalone: true,
   imports: [
     CommonModule,
@@ -33,10 +34,10 @@ export function gordonCollegeEmailValidator(control: AbstractControl): Validatio
     RouterModule,
     FontAwesomeModule
   ],
-  templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  templateUrl: './adminlogin.html',
+  styleUrls: ['./adminlogin.css']
 })
-export class LoginComponent {
+export class AdminLoginComponent {
   loginForm: FormGroup;
   hidePassword = true;
   isLoading = false;
@@ -50,7 +51,7 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private router: Router, private cdr: ChangeDetectorRef) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, gordonCollegeEmailValidator]],
+      email: ['', [Validators.required, Validators.email, adminEmailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -66,14 +67,23 @@ export class LoginComponent {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        console.log('Successfully logged in user:', user);
+        const adminDocRef = doc(db, 'admins', user.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
 
-        this.isLoading = false;
-        this.loginSuccess = true;
-        this.cdr.detectChanges();
-
-        setTimeout(() => this.router.navigate(['/student']), 1000);
+        if (adminDocSnap.exists()) {
+          console.log('Successfully logged in admin:', user);
+          this.isLoading = false;
+          this.loginSuccess = true;
+          this.cdr.detectChanges();
+          setTimeout(() => this.router.navigate(['/admin']), 1500);
+        } else {
+          this.isLoading = false;
+          this.loginError = 'You are not authorized as an admin.';
+          this.cdr.detectChanges();
+          await auth.signOut();
+        }
       } catch (error: any) {
+        await auth.signOut(); 
         this.isLoading = false;
         this.loginError = 'Invalid email or password. Please try again.';
         console.error('Login failed:', error.code, error.message);

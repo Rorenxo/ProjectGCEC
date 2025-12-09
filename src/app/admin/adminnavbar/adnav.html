@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a class="navbar-brand" routerLink="/admin/dashboard">
+      <span class="brand-text">Admin Panel</span>
+    </a>
+
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="navbar-links" [class.active]="isMenuOpen">
+       <button class="close-menu-btn" (click)="toggleMenu()">
+        <mat-icon>close</mat-icon>
+      </button>
+        <a class="nav-link" [routerLink]="['/admin','dashboard']"  routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+        <a class="nav-link" [routerLink]="['/admin','create']"   routerLinkActive="active" (click)="closeMenu()">Add Event</a>
+        <a class="nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
+        </div>
+  </div>
+</nav>
