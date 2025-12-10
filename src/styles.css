@@ -9,7 +9,6 @@
   --text-dark: #333;
   --text-light: #ffffff;
 }
-@import "tailwindcss";
 
 * {
   margin: 0;
@@ -27,6 +26,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   background: var(--background-light);
   color: #1e1e2e;
+  background-color: #f8f9fa;
 }
 
 ::-webkit-scrollbar {
@@ -56,4 +56,4 @@ a:hover {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family:  'Montserrat', sans-serif}

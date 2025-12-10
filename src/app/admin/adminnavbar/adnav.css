@@ -28,6 +28,11 @@
   cursor: pointer;
 }
 
+.navbar-brand img {
+  height: 3rem;
+   width: auto;
+}
+
 .navbar-brand:hover {
   transform: scale(1.05);
 }
@@ -107,7 +112,32 @@
   border: none;
   color: white;
 }
+.logout-btn {
+  background-color: #fbebeb; /* Light red background */
+  color: #c82333; /* Darker red for the icon */
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
 
+.logout-btn:hover {
+  background-color: #c82333; /* Red background on hover */
+  color: #fff; /* White icon on hover */
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 4px 12px rgba(200, 35, 51, 0.4);
+}
+
+/* Ensure it aligns well within the navbar links */
+.navbar-links .logout-btn {
+  padding: 0;
+  min-width: 40px;
+}
 @media (max-width: 768px) {
   .navbar-links {
     display: flex;

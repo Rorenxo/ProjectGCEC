@@ -7,6 +7,13 @@
     </button>
   </div>
 
+  <div class="welcome-message">
+    <div>
+      <h3>Welcome back, Admin!</h3>
+      <p>Here's a quick overview of your events dashboard. You can create new events or manage existing ones below.</p>
+    </div>
+  </div>
+
   <div class="stats-grid" *ngIf="stats$ | async as stats">
     <mat-card class="stat-card" *ngFor="let stat of stats">
       <mat-card-header>
@@ -27,8 +34,18 @@
           <mat-card-subtitle>{{ event.startDate | date:'fullDate' }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>{{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}</p>
+          <p>{{event.location }}</p>
         </mat-card-content>
+        <ng-container *ngIf="event.id">
+          <mat-card-actions align="end">
+            <button mat-icon-button (click)="editEvent(event.id)" aria-label="Edit event">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteEvent(event.id)" aria-label="Delete event">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </ng-container>
       </mat-card>
     </div>
   </div>

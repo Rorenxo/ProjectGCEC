@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="form-header">
-    <h2>Create New Event</h2>
+    <h2>Edit Event</h2>
   </div>
 
   <div *ngIf="successMessage" class="success-message">
@@ -9,13 +9,17 @@
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
-  
+
   <div class="form-wrapper">
-    <app-event-form 
+    <div *ngIf="!eventData && !errorMessage" class="loading-message">
+      <p>Loading event details...</p>
+    </div>
+
+    <app-event-form *ngIf="eventData"
       [eventData]="eventData"
       [uploading]="uploading"
-      submitLabel="Create Event"
-      (save)="createEvent($event)">
+      submitLabel="Update Event"
+      (save)="updateEvent($event)">
     </app-event-form>
   </div>
 </div>

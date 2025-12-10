@@ -1,72 +1,62 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Event, EventService } from '../event.service';
 import { finalize } from 'rxjs/operators';
+import { EventFormComponent } from './event-form.component';
 
 @Component({
   selector: 'app-create',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatProgressBarModule
+    EventFormComponent,
+    RouterModule
   ],
-  templateUrl: './create.component.html',  
+  templateUrl: './create.component.html',
   styleUrls: ['./create.component.css'],
 })
 export class CreateEventComponent {
-  newEvent: Omit<Event, 'id'> = { title: '', description: '', startDate: '', endDate: '', department: 'CSS', eventType: 'social', imageUrl: '' };
-  departments: Event['department'][] = ['CSS', 'CEAS', 'CAHS', 'CBA', 'CHTM'];
-  eventTypes: Event['eventType'][] = ['social', 'activities', 'seminar', 'meetings', 'sports'];
-  
-  selectedFile: File | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
   uploading = false;
+  eventData: Omit<Event, 'id'> = this.getInitialEventData();
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
-  constructor(private eventService: EventService, private router: Router, private http: HttpClient) {}
+  constructor(
+    private eventService: EventService, 
+    private router: Router, 
+    private http: HttpClient
+  ) {}
 
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = () => this.imagePreview = reader.result;
-      reader.readAsDataURL(file);
-    }
+  private getInitialEventData(): Omit<Event, 'id'> {
+    return { title: '', description: '', startDate: '', endDate: '', department: 'CSS', eventType: 'social', location: '', imageUrl: '' };
   }
-
-  async createEvent() {
-    if (this.isFormInvalid() || !this.selectedFile) return;
+  
+  createEvent({ eventData, file }: { eventData: Omit<Event, 'id'>, file: File | null }) {
+    if (!file) {
+      this.errorMessage = "An image is required to create an event.";
+      return;
+    }
 
     this.uploading = true;
+    this.successMessage = null;
+    this.errorMessage = null;
     const formData = new FormData();
-    formData.append('file', this.selectedFile);
+    formData.append('file', file);
     formData.append('upload_preset', 'AngularGCEC'); 
 
     this.http.post<any>('https://api.cloudinary.com/v1_1/dqvolqdno/image/upload', formData)
       .pipe(finalize(() => this.uploading = false))
       .subscribe(async (res) => {
-        this.newEvent.imageUrl = res.secure_url;
-        await this.eventService.createEvent(this.newEvent);
-        this.router.navigate(['/admin/events']);
+        eventData.imageUrl = res.secure_url;
+        const newEvent = await this.eventService.createEvent(eventData);
+        this.successMessage = `Event was created successfully!`;
+        this.eventData = this.getInitialEventData();
+        setTimeout(() => this.successMessage = null, 3000);
       }, (err) => {
         console.error('Image upload failed:', err);
+        this.errorMessage = 'Failed to upload image. Please try again.';
       });
-  }
-
-  isFormInvalid(): boolean {
-    return !this.newEvent.title || !this.newEvent.startDate || !this.newEvent.endDate || !this.newEvent.description || !this.selectedFile || this.uploading;
   }
 }
