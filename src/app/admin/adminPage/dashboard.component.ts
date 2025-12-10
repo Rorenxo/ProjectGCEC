@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Event, EventService } from '../event.service';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfirmDialogComponent } from './confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,15 +22,19 @@ import { map } from 'rxjs/operators';
     MatButtonModule,
     MatListModule,
     MatDividerModule,
+    MatDialogModule,
+    DatePipe,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css'],
+  
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   stats$!: Observable<{ label: string; value: number; icon: string; }[]>;
   recentEvents$!: Observable<Event[]>;
+  private timer?: number;
 
-  constructor(private eventService: EventService, private router: Router) {}
+  constructor(private eventService: EventService, private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     const events$ = this.eventService.events$;
@@ -51,14 +57,44 @@ export class DashboardComponent implements OnInit {
         ];
       })
     );
-
-    // Use all events for the list, sorted by most recent
+    
     this.recentEvents$ = events$.pipe(map(
       events => [...events].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
     ));
   }
 
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+
   goToCreateEvent(): void {
-    this.router.navigate(['/create']);
+    this.router.navigate(['/admin/create']);
+  }
+
+  editEvent(id: string): void {
+    this.router.navigate(['/admin/edit', id]);
+  }
+
+  async deleteEvent(id: string): Promise<void> {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this event? This action cannot be undone.',
+        confirmButtonText: 'Delete'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        try {
+          await this.eventService.deleteEvent(id);
+        } catch (error) {
+          console.error('Failed to delete event:', error);
+        }
+      }
+    });
   }
 }

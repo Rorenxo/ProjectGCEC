@@ -8,6 +8,7 @@ import { AdminLoginComponent } from './admin/AdminAuth/login/adminlogin';
 import { AdminRegisterComponent } from './admin/AdminAuth/register/adminregister';
 import { DashboardComponent } from './admin/adminPage/dashboard.component';
 import { CreateEventComponent } from './admin/adminPage/create.component';
+import { EditEventComponent } from './admin/adminPage/edit.component';
 
 import { StudentFeed } from './student/studentMain/student-feed/student-feed';
 
@@ -34,7 +35,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'create', component: CreateEventComponent }
+      { path: 'create', component: CreateEventComponent },
+      { path: 'edit/:id', component: EditEventComponent }, 
     ]
   },
 

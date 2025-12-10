@@ -1,0 +1,68 @@
+<form (ngSubmit)="onSubmit()" class="form-container">
+
+  <!-- Event Title -->
+  <div class="form-group">
+    <label>Name of Event</label>
+    <input type="text" [(ngModel)]="eventData.title" name="title" required />
+  </div>
+
+  <!-- Dates -->
+  <div class="date-row">
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="datetime-local" [(ngModel)]="eventData.startDate" name="startDate" (change)="onStartDateChange()" required />
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="datetime-local" [(ngModel)]="eventData.endDate" name="endDate" [min]="minEndDate" required />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Location</label>
+    <input type="text" [(ngModel)]="eventData.location" name="location" required />
+  </div>
+
+  <!-- Department & Event Type -->
+  <div class="date-row">
+    <div class="form-group">
+      <label>Department</label>
+      <select [(ngModel)]="eventData.department" name="department">
+        <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Event Type</label>
+      <select [(ngModel)]="eventData.eventType" name="eventType">
+        <option *ngFor="let type of eventTypes" [value]="type">{{ type | titlecase }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea [(ngModel)]="eventData.description" name="description" rows="4"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Images</label>
+    <div class="image-previews-grid" *ngIf="imagePreview">
+      <div class="image-preview-container">
+        <img [src]="imagePreview" class="image-preview">
+        <button type="button" class="remove-image-btn" (click)="removeImage()" title="Remove image">&times;</button>
+      </div>
+    </div>
+    <div class="upload-zone" 
+         (click)="fileUpload.click()" 
+         (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+         [class.dragover]="isDragging">
+      <p>Drag & drop an image here, or click to browse</p>
+      <input #fileUpload type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+    </div>
+  </div>
+
+  <div class="progress-bar" *ngIf="uploading"><div class="progress"></div></div>
+  <button class="submit-btn" type="submit" [disabled]="isFormInvalid()">
+    {{ uploading ? 'Saving...' : submitLabel }}
+  </button>
+</form>
