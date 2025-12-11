@@ -1,20 +1,37 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <a class="navbar-brand" routerLink="/student">
-      <span class="brand-text">Student Panel</span>
+
+    <!-- BRAND -->
+    <a class="navbar-brand" routerLink="/student" (click)="closeMenu()">
+      <mat-icon>school</mat-icon>
+      <span class="brand-text">Student Portal</span>
     </a>
 
+    <!-- MOBILE MENU BUTTON -->
     <button class="menu-toggle" (click)="toggleMenu()">
       <mat-icon>menu</mat-icon>
     </button>
 
+    <!-- NAV LINKS -->
     <div class="navbar-links" [class.active]="isMenuOpen">
-       <button class="close-menu-btn" (click)="toggleMenu()">
+      
+      <!-- Close button (mobile only) -->
+      <button class="close-menu-btn" (click)="toggleMenu()">
         <mat-icon>close</mat-icon>
       </button>
-        <a class="nav-link" [routerLink]="['/admin','dashboard']"  routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
-        <a class="nav-link" [routerLink]="['/admin','create']"   routerLinkActive="active" (click)="closeMenu()">Add Event</a>
-        <a class="nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
-        </div>
+
+      <a class="nav-link" routerLink="/student" routerLinkActive="active" (click)="closeMenu()">
+        <mat-icon class="link-icon">home</mat-icon>
+Home    </a>
+      <a class="nav-link" routerLink="/student/events" routerLinkActive="active" (click)="closeMenu()">
+        <mat-icon class="link-icon">event</mat-icon>
+        Events
+      </a>
+      <a class="nav-link" (click)="logout()">
+        <mat-icon class="link-icon">logout</mat-icon>
+        Logout
+      </a>
+
+    </div>
   </div>
 </nav>

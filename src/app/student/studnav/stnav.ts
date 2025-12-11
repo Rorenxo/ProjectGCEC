@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'app-admin-navbar',
+  selector: 'app-student-navbar',
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
   templateUrl: './stnav.html',
-  styleUrls: ['./stnav.css']
+  styleUrls: ['./stnav.css'],
+  exportAs: 'appStudentNavbar'
 })
 export class StudentNavbarComponent {
   isMenuOpen = false;

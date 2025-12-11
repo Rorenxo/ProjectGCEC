@@ -7,7 +7,7 @@ import { StudentNavbarComponent } from '../student/studnav/stnav';
   standalone: true,
   selector: 'app-student-layout',
   template: `
-    <app-admin-navbar></app-admin-navbar>
+<app-student-navbar></app-student-navbar>
     <main class="full-screen-content">
       <router-outlet></router-outlet> </main>
     `,
