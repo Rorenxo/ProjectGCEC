@@ -2,20 +2,20 @@
 
   <div class="thumb-wrapper">
     <img
-      [src]="event?.imageUrl || 'assets/campusEvent.jpg'"
+      [src]="event.imageUrl || 'assets/campusEvent.jpg'"
       class="event-thumb"
-      alt="{{ event?.title }}"
+      alt="{{ event.title }}"
     />
   </div>
 
   <mat-card-content>
     <div class="meta-row">
-      <h4 class="event-title">{{ event?.title }}</h4>
-      <div class="event-date">{{ event?.startDate | date:'mediumDate' }}</div>
+      <h4 class="event-title">{{ event.title }}</h4>
+      <div class="event-date">{{ event.startDate | date:'mediumDate' }}</div>
     </div>
 
     <p class="event-summary">
-      {{ (event?.description || '') | slice:0:120 }}...
+      {{ event.location }}
     </p>
   </mat-card-content>
 

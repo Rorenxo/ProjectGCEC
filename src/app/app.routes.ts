@@ -11,6 +11,7 @@ import { CreateEventComponent } from './admin/adminPage/create.component';
 import { EditEventComponent } from './admin/adminPage/edit.component';
 
 import { StudentFeed } from './student/studentMain/student-feed/student-feed';
+import { EventCard } from './student/studentMain/event-card/event-card.component';
 
 
 import { MainLayoutComponent } from './layout/main-layout.component';
@@ -45,6 +46,7 @@ export const routes: Routes = [
     component: StudentLayoutComponent,
     children: [
       { path: '', component: StudentFeed  }, 
+      { path: 'event/:id', component: EventCard  },
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }
